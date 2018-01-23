@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ljw.mapper.UserMapper">
+
+	<insert id="addUser" parameterType="com.ljw.dto.User">
+	
+		insert into user(user_name,user_zh,user_mm,user_role,user_sex,user_card,user_age,user_address,user_phone,user_time,user_yu,user_zhuangtai) values(#{user_name},#{user_zh},#{user_mm},#{user_role},#{user_sex},#{user_card},#{user_age},#{user_address},#{user_phone},now(),#{user_yu},#{user_zhuangtai});
+	
+	</insert>
+	
+	<select id="login" resultType="com.ljw.dto.User" parameterType="com.ljw.dto.User">
+	
+		select * from user where user_zh=#{user_zh} and user_mm=#{user_mm}
+		
+	</select>
+	
+	<select id="getShopList" resultType="com.ljw.dto.Shop">
+	
+		select * from shop
+		
+	</select>
+	
+	<select id="getShopObj" resultType="com.ljw.dto.Shop" parameterType="com.ljw.dto.Shop">
+	
+		select * from shop where shop_id=#{shop_id}
+		
+	</select>
+	
+	<insert id="addOrder" parameterType="map">
+		
+		insert into orderr(user_id,shop_id,order_sum,order_zs,order_status,bill_id) values(#{user_id},#{shop_id},#{order_sum},#{order_zs},1,#{bill_id})
+	
+	</insert>
+	
+	<select id="getOrderList" parameterType="map" resultType="com.ljw.dto.Orderr">
+	
+		SELECT * FROM orderr r LEFT JOIN shop s ON r.shop_id=s.shop_id WHERE r.user_id=#{user_id} AND r.order_status=1
+	
+	</select>
+	
+	<select id="getOrderobj" parameterType="map" resultType="Integer">
+	
+		SELECT SUM(r.order_zs) FROM orderr r LEFT JOIN shop s ON r.shop_id=s.shop_id WHERE r.user_id=#{user_id} AND r.order_status=1;
+	
+	</select>
+	
+	<select id="getOrderobjsum" parameterType="map" resultType="Integer">
+	
+		SELECT SUM(r.order_sum) FROM orderr r LEFT JOIN shop s ON r.shop_id=s.shop_id WHERE r.user_id=#{user_id} AND r.order_status=1;
+	
+	</select>
+	
+	<select id="getUser" resultType="com.ljw.dto.User" parameterType="Integer">
+		select * from user where user_id = #{id}
+	</select>
+	
+	<insert id="addBill" parameterType="map">
+	
+		insert into bill(bill_name,bill_time,bill_sum,user_id) values(#{bill_name},now(),#{bill_sum},#{user_id})
+		
+	</insert>
+	
+	<select id="getBill" parameterType="com.ljw.dto.Bill" resultType="com.ljw.dto.Bill">
+	
+		SELECT * FROM bill WHERE  bill_id=(SELECT MAX(bill_id) FROM bill) AND user_id=#{user_id}
+	
+	</select>
+	
+	<select id="getOrderr" parameterType="map" resultType="com.ljw.dto.Orderr">
+	
+		select * from orderr where user_id=#{user_id}
+	
+	</select>
+	
+	<select id="getBillList" parameterType="map" resultType="com.ljw.dto.Bill">
+	
+		select * from bill where user_id=#{user_id}
+	
+	</select>
+	
+	<delete id="del" parameterType="com.ljw.dto.Orderr">
+	
+		delete from orderr where order_id=#{order_id};
+	
+	</delete>
+	
+	<delete id="delbillorder" parameterType="com.ljw.dto.Bill">
+	
+		update orderr set user_id=0 where user_id=#{user_id};
+	
+	</delete>
+	
+	<select id="getUserObj" parameterType="map" resultType="com.ljw.dto.User">
+	
+		select * from user where user_id=#{user_id}
+	
+	</select>
+	
+	<update id="doUpdate" parameterType="map">
+		update user set user_mm=#{pwd},user_address=#{user_address},user_phone=#{user_phone} where user_id = #{user_id}
+	</update>
+	
+	<update id="doPay" parameterType="map">
+		update user set user_yu = #{zong} where user_id = #{id}
+	</update>	
+	
+	<update id="updatecount" parameterType="map">
+	
+		update shop set shop_sheng=#{shop_sheng} where shop_id=#{shop_id}
+	
+	</update>
+	
+	<update id="addcount" parameterType="map">
+	
+		update shop set shop_sheng=#{shop_sheng} where shop_id=#{shop_id} 
+	
+	</update>
+	<select id="getShopByOrder" parameterType="com.ljw.dto.Orderr" resultType="com.ljw.dto.Shop">
+	
+		SELECT * FROM shop s,orderr r,USER u WHERE s.shop_id=r.shop_id AND r.user_id=u.user_id AND r.order_id=#{order_id}
+	
+	</select>
+	
+	<select id="getuserRegister" parameterType="com.ljw.dto.User" resultType="com.ljw.dto.User">
+	
+		select * from user where user_zh=#{user_zh};
+	
+	</select>
+	
+	<select id="getOrderListByBill" parameterType="map" resultType="com.ljw.dto.Orderr">
+	
+		
+		select * from  bill b left join orderr r on b.bill_id=r.bill_id left join shop s on r.shop_id=s.shop_id where b.bill_id=#{bill_id} and b.user_id=#{user_id}
+	
+	</select>
+	
+	<update id="updateOrderStatus" parameterType="map">
+	
+		update orderr set order_status=0 where user_id=#{user_id};
+	
+	</update>
+	
+	<select id="getBill_id" resultType="Integer" parameterType="map">
+		
+		select max(bill_id) from bill;
+		
+	</select>
+	
+	<select id="getBillsumByUserid"  resultType="com.ljw.dto.Bill">
+	
+		SELECT * FROM bill WHERE bill_id=(SELECT MAX(bill_id) FROM bill);
+	
+	</select>
+	
+	<update id="updateUserMoney" parameterType="map">
+	
+		update user set user_yu=#{user_yu} where user_id=#{user_id};
+	
+	</update>
+</mapper>

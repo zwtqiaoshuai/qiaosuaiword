@@ -1,0 +1,85 @@
+package com.ljw.dto;
+
+public class Shop {
+	
+	private Integer shop_id;
+	private String shop_dsc;
+	private String shop_time;
+	private String shop_zong;
+	private String shop_sheng;
+	private String shop_zhuangtai;
+	private String shop_price;
+	private Integer order_zs;
+	public Integer getShop_id() {
+		return shop_id;
+	}
+	public void setShop_id(Integer shop_id) {
+		this.shop_id = shop_id;
+	}
+	public String getShop_dsc() {
+		return shop_dsc;
+	}
+	public void setShop_dsc(String shop_dsc) {
+		this.shop_dsc = shop_dsc;
+	}
+	public String getShop_time() {
+		return shop_time;
+	}
+	public void setShop_time(String shop_time) {
+		this.shop_time = shop_time;
+	}
+	public String getShop_zong() {
+		return shop_zong;
+	}
+	public void setShop_zong(String shop_zong) {
+		this.shop_zong = shop_zong;
+	}
+	public String getShop_sheng() {
+		return shop_sheng;
+	}
+	public void setShop_sheng(String shop_sheng) {
+		this.shop_sheng = shop_sheng;
+	}
+	public String getShop_zhuangtai() {
+		return shop_zhuangtai;
+	}
+	public void setShop_zhuangtai(String shop_zhuangtai) {
+		this.shop_zhuangtai = shop_zhuangtai;
+	}
+	public String getShop_price() {
+		return shop_price;
+	}
+	public void setShop_price(String shop_price) {
+		this.shop_price = shop_price;
+	}
+	public Integer getOrder_zs() {
+		return order_zs;
+	}
+	public void setOrder_zs(Integer order_zs) {
+		this.order_zs = order_zs;
+	}
+	public Shop(Integer shop_id, String shop_dsc, String shop_time, String shop_zong, String shop_sheng,
+			String shop_zhuangtai, String shop_price, Integer order_zs) {
+		super();
+		this.shop_id = shop_id;
+		this.shop_dsc = shop_dsc;
+		this.shop_time = shop_time;
+		this.shop_zong = shop_zong;
+		this.shop_sheng = shop_sheng;
+		this.shop_zhuangtai = shop_zhuangtai;
+		this.shop_price = shop_price;
+		this.order_zs = order_zs;
+	}
+	public Shop() {
+		super();
+	}
+	@Override
+	public String toString() {
+		return "Shop [shop_id=" + shop_id + ", shop_dsc=" + shop_dsc + ", shop_time=" + shop_time + ", shop_zong="
+				+ shop_zong + ", shop_sheng=" + shop_sheng + ", shop_zhuangtai=" + shop_zhuangtai + ", shop_price="
+				+ shop_price + ", order_zs=" + order_zs + "]";
+	}
+	
+	
+	
+}
